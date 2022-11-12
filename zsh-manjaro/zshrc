@@ -2,6 +2,7 @@
 # cd ~/source/bgant
 # git clone https://github.com/bgant/tools
 # ln -s ~/source/bgant/tools/zsh-manjaro/zshrc .zshrc
+# chsh -s ${which zsh}
 
 # Default Manjaro ZSH Config
 ###################################################
@@ -29,9 +30,12 @@ source ~/.aliases
 # Antigen ZSH management
 ###################################################
 # Source:  https://dev.to/phuctm97/zsh-antigen-oh-my-zsh-a-beautiful-powerful-and-robust-shell-5da4
+# cd /tmp/
 # curl -L https://git.io/antigen > antigen.zsh
+# chmod +x antigen.zsh
+# sudo mv antigen.zsh /usr/local/bin
 # ln -s ~/source/bgant/tools/zsh-manjaro/antigenrc .antigenrc  
-source "/home/temp/scripts/antigen.zsh"   # Load Antigen	
+source "/usr/local/bin/antigen.zsh"       # Load Antigen	
 antigen init ~/.antigenrc                 # Load Antigen configurations
 
 # Python Autoswitch Virtual Environment
@@ -46,5 +50,9 @@ export AUTOSWITCH_DEFAULTENV="home/temp/.venv"
 # Source: https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 # sudo pacman -Syu tmux
 # ln -s ~/source/bgant/tools/zsh-manjaro/tmux.conf .tmux.conf
-# Terminal Emulator -> Edit -> Preferences -> General -> Check "Run a custom command instead of my shell" -> Custom command: tmux
+# Start -> Terminal Emulator -> Edit -> Preferences -> General
+#    Check "Run a custom command instead of my shell"
+#    Custom command: tmux
+# Start -> Right-Click Terminal Emulator -> Edit Application
+#    Add --maximize --fullscreen to Command
 
