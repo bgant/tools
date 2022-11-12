@@ -4,4 +4,5 @@
 #    Add iomem=relaxed to GRUB_CMDLINE_LINUX_DEFAULT
 # sudo update-grub
 
-curl -LO mrchromebox.tech/firmware-util.sh && sudo bash firmware-util.sh
+curl -L mrchromebox.tech/firmware-util.sh > /tmp/firmware-util.sh
+sudo bash /tmp/firmware-util.sh
