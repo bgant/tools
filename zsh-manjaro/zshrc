@@ -30,13 +30,10 @@ source ~/.aliases
 # Antigen ZSH management
 ###################################################
 # Source:  https://dev.to/phuctm97/zsh-antigen-oh-my-zsh-a-beautiful-powerful-and-robust-shell-5da4
-# cd /tmp/
-# curl -L https://git.io/antigen > antigen.zsh
-# chmod +x antigen.zsh
-# sudo mv antigen.zsh /usr/local/bin
+# curl -L https://git.io/antigen > .antigen.zsh
 # ln -s ~/source/bgant/tools/zsh-manjaro/antigenrc .antigenrc  
-source "/usr/local/bin/antigen.zsh"       # Load Antigen	
-antigen init ~/.antigenrc                 # Load Antigen configurations
+source ".antigen.zsh"         # Load Antigen	
+antigen init ~/.antigenrc     # Load Antigen configurations
 
 # Python Autoswitch Virtual Environment
 ###################################################
