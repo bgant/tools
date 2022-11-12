@@ -1,0 +1,50 @@
+# sudo pacman -Syu zsh
+# cd ~/source/bgant
+# git clone https://github.com/bgant/tools
+# ln -s ~/source/bgant/tools/zsh-manjaro/zshrc .zshrc
+
+# Default Manjaro ZSH Config
+###################################################
+# Use powerline
+USE_POWERLINE="true"
+# Source manjaro-zsh-configuration
+if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
+  source /usr/share/zsh/manjaro-zsh-config
+fi
+# Use manjaro zsh prompt
+if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
+  source /usr/share/zsh/manjaro-zsh-prompt
+fi
+
+# Custom Aliases
+###################################################
+# ln -s ~/source/bgant/tools/zsh-manjaro/aliases .aliases
+source ~/.aliases
+
+# Oh My ZSH
+###################################################
+# Source:  https://gist.github.com/yovko/becf16eecd3a1f69a4e320a95689249e
+# sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Antigen ZSH management
+###################################################
+# Source:  https://dev.to/phuctm97/zsh-antigen-oh-my-zsh-a-beautiful-powerful-and-robust-shell-5da4
+# curl -L https://git.io/antigen > antigen.zsh
+# ln -s ~/source/bgant/tools/zsh-manjaro/antigenrc .antigenrc  
+source "/home/temp/scripts/antigen.zsh"   # Load Antigen	
+antigen init ~/.antigenrc                 # Load Antigen configurations
+
+# Python Autoswitch Virtual Environment
+###################################################
+# Source: https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
+# Default Environment (rmvenv, mkvenv, pip-update)
+export AUTOSWITCH_DEFAULTENV="home/temp/.venv"
+
+# Tmux
+###################################################
+# Source: https://www.howtogeek.com/671422/how-to-use-tmux-on-linux-and-why-its-better-than-screen/
+# Source: https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
+# sudo pacman -Syu tmux
+# ln -s ~/source/bgant/tools/zsh-manjaro/tmux.conf .tmux.conf
+# Terminal Emulator -> Edit -> Preferences -> General -> Check "Run a custom command instead of my shell" -> Custom command: tmux
+
