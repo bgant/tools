@@ -82,15 +82,13 @@ for key in result:
     # Try to fix FAILED state by remounting volume
     if not status:
         command = KUBECONFIG + \
-                  ' kubectl exec -it -n longhorn-system ' + key + \
-                  ' -- umount --force ' + NFS + '; \
-                  mkdir -p ' + NFS + ';\
-                  chmod 777 ' + NFS + ';\
-                  kubectl exec -it -n longhorn-system ' + key + \
-                  ' -- mount -t nfs4 -o nfsvers=4.2 ' + IP + ':/ ' + NFS
+                  'kubectl exec -it -n longhorn-system ' + key + ' -- umount -v --force ' + NFS + \
+                  '; kubectl exec -it -n longhorn-system ' + key + ' -- mkdir -v -p ' + NFS + \
+                  '; kubectl exec -it -n longhorn-system ' + key + ' -- chmod -v 777 ' + NFS + \
+                  '; kubectl exec -it -n longhorn-system ' + key + ' -- mount -v -t nfs4 -o nfsvers=4.2 ' + IP + ':/ ' + NFS
         remount = run(command, shell=True, capture_output=True, text=True)
         print("    Attempted to fix problem... Run this script again to see if it is working now...")
-        print(command)
+        #print(command)
 
 # Show example of last command run
 #print(command)
