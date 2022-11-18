@@ -11,7 +11,7 @@ import os
 ###################################################################################
 
 # Kubectl client should be the same or one version higher than Kubernetes
-PINNED_VERSION = 'v1.22'
+PINNED_VERSION = 'v1.24'
 
 # Pages of github.com tags to search through (if you need to find older versions)
 PAGES = 2
@@ -40,11 +40,17 @@ def latest_pinned_version():
     versions = parse_tags()
     return list(filter(lambda x: PINNED_VERSION in x, versions))[0]
 
-# Locally installed version 
-def check_installed_version():
+# Locally installed version (deprecated)
+def check_installed_version_deprecated():
     output = subprocess.check_output(['/usr/local/bin/kubectl','version'])
     version = output.decode().splitlines()[0].split('"')[5]
     return version
+
+# Locally installed version
+def check_installed_version():
+    output = subprocess.check_output(['/usr/local/bin/kubectl','version','--output=json'])
+    version = json.loads(output.decode())
+    return version['clientVersion']['gitVersion']
 
 def install_new_version(version):
     WGET = 'wget -q -O kubectl --show-progress https://storage.googleapis.com/kubernetes-release/release/' + version + '/bin/linux/amd64/kubectl'
