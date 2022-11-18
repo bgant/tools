@@ -19,7 +19,7 @@
 
 IP='192.168.7.119'
 NFS='/var/lib/longhorn-backupstore-mounts/192_168_7_119'
-KUBECONFIG='export KUBECONFIG=kube_config_cluster.yml;'
+KUBECONFIG='export KUBECONFIG=~/rke-flatcar/kube_config_cluster.yml;'
 
 
 ########################################################
