@@ -54,3 +54,8 @@ export AUTOSWITCH_DEFAULTENV="home/temp/.venv"
 # Start -> Right-Click Terminal Emulator -> Edit Application
 #    Add --maximize --fullscreen to Command
 
+# eBPF Tools
+# Source: Linux Format Magazine LXF294 Page 94
+# sudo pacman -S bpf bcc bcc-tools python-bcc
+export PATH="/usr/share/bcc/tools:$PATH"
+
