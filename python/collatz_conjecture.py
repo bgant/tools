@@ -1,5 +1,5 @@
-n = int(input("Enter a number: "))
 
+# Number of steps to divide any number down to 1
 def collatz(n):
     count = 0
     while n != 1:
@@ -8,7 +8,21 @@ def collatz(n):
             n = int(n/2)
         else: # Odd Number
             n = 3*n + 1
-        print(n)
+        #print(n)
     return count
 
-print("With", n, "we reached 1 in", collatz(n), "steps.")
+# Which numbers in a range have the most steps
+def max_collatz_steps(i):
+    max = 1
+    for n in range(1,i+1):
+        if collatz(n) > max:
+            max = collatz(n)
+            print(n, "takes", max, "steps")
+
+if __name__ == '__main__':
+    n = 0
+    while n <= 0:
+        n = int(input("Enter a positive integer: "))
+    else:
+        max_collatz_steps(n)
+
