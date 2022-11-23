@@ -17,7 +17,7 @@ def max_collatz_steps(i):
     for n in range(1,i+1):
         if collatz(n) > max:
             max = collatz(n)
-            print(n, "takes", max, "steps")
+            print(f"{n} takes {max} steps")
 
 if __name__ == '__main__':
     n = 0
