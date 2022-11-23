@@ -1,5 +1,8 @@
+import time
+from functools import lru_cache
 
 # Number of steps to divide any number down to 1
+@lru_cache(maxsize=100)
 def collatz(n):
     count = 0
     while n != 1:
@@ -20,9 +23,12 @@ def max_collatz_steps(i):
             print(f"{n} takes {max} steps")
 
 if __name__ == '__main__':
+    start = time.perf_counter()
     n = 0
     while n <= 0:
         n = int(input("Enter a positive integer: "))
     else:
         max_collatz_steps(n)
+    end = time.perf_counter()
+    print(f"{end - start} seconds")
 
