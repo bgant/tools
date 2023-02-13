@@ -22,7 +22,7 @@ def FrontOutsideLights(state='OFF'):
     payload = '{ "state": \"' + state + '\" }'
     if state.upper() == 'ON' or state.upper() == 'OFF':
         payload = '{ "state": \"' + state.upper() + '\" }'
-        print(payload)
+        #print(payload)
         publish.single(topic=topic, payload=payload, hostname=hostname)
     else:
         print(f"ERROR: {state} is invalid option")
