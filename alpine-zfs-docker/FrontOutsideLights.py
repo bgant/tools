@@ -20,13 +20,17 @@ def FrontOutsideLights(state='OFF'):
     topic = 'zigbee2mqtt/FrontOutsideLights/set'
     hostname = 'docker-asus'
     payload = '{ "state": \"' + state + '\" }'
-    print(payload)
-    publish.single(topic=topic, payload=payload, hostname=hostname)
+    if state.upper() == 'ON' or state.upper() == 'OFF':
+        payload = '{ "state": \"' + state.upper() + '\" }'
+        print(payload)
+        publish.single(topic=topic, payload=payload, hostname=hostname)
+    else:
+        print(f"ERROR: {state} is invalid option")
 
 if __name__ == '__main__':
     state = input("ON or OFF? ")
-    if state == 'ON' or state == 'OFF':
-        FrontOutsideLights(state)
+    if state.upper() == 'ON' or state.upper() == 'OFF':
+        FrontOutsideLights(state.upper())
     else:
         print(f"{state} is an invalid option")
 
