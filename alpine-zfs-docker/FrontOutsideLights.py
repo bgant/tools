@@ -30,3 +30,20 @@ if __name__ == '__main__':
     else:
         print(f"{state} is an invalid option")
 
+
+'''
+>>> data
+{'results': 
+  {'sunrise':     '6:57:30 AM', 
+   'sunset':      '5:17:54 PM', 
+   'first_light': '5:25:21 AM', 
+   'last_light':  '6:50:03 PM', 
+   'dawn':        '6:29:11 AM', 
+   'dusk':        '5:46:14 PM', 
+   'solar_noon': '12:07:42 PM', 
+   'golden_hour': '4:39:06 PM', 
+   'day_length': '10:20:24', 
+   'timezone': 'CST'}, 
+'status': 'OK'}
+'''
+
