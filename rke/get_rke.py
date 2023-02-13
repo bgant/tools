@@ -11,7 +11,7 @@ import os
 ###################################################################################
 
 # Kubectl client should be the same or one version higher than Kubernetes
-PINNED_VERSION = 'v1.4'
+PINNED_VERSION = 'v1.4.0'
 
 # Pages of github.com tags to search through (if you need to find older versions)
 PAGES = 2
