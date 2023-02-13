@@ -1,7 +1,18 @@
-# python3 -m venv venv
-# source venv/bin/activate
+# Source: http://docker-asus.localdomain:8081/#/dashboard
+# Source: https://www.zigbee2mqtt.io/devices/DG6HD-1BW.html
+
+### Setup
+# python3 -m venv .venv
+# source .venv/bin/activate
+# pip list
 # pip install --upgrade pip
 # pip install wheel paho-mqtt
+
+### Usage
+# from FrontOutsideLights import FrontOutsideLights
+# FrontOutsideLights('ON')
+# FrontOutsideLights('OFF')
+
 
 import paho.mqtt.publish as publish
 
