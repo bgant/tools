@@ -11,7 +11,7 @@
 
 
 from datetime import datetime
-from dusk import dusk
+import solar_api
 from FrontOutsideLights import FrontOutsideLights
 from time import sleep
 
@@ -19,8 +19,9 @@ if datetime.now() > datetime.now().replace(hour = 21, minute = 0, second = 0):
     print("Turning front outside lights OFF")
     FrontOutsideLights('OFF')     # Turn lights OFF after 9PM
 else:
-    dusk = dusk()
+    dusk = solar_api.phase('dusk')
     while datetime.now() < dusk:
+        print('waiting for dusk at', dusk.strftime('%H:%M:%S'))
         sleep(600)  # Wait 10 Minutes 
     else:
         print("Turning front outside lights ON")
