@@ -37,7 +37,11 @@ def phase(query='dusk'):
                       int(data_tuple_str[1]), 
                       int(data_tuple_str[2])]
     data_datetime = datetime.now().replace(hour = data_tuple_int[0], minute = data_tuple_int[1], second = 0)
-    return data_datetime 
+    if datetime.now().day == data_datetime.day:
+        return data_datetime 
+    else:
+        print('ERROR: Something is wrong with the API data... Exiting')
+        exit()
 
 if __name__ == '__main__':
     data = request()
@@ -66,8 +70,5 @@ if __name__ == '__main__':
    'day_length': '10:20:24', 
    'timezone': 'CST'}, 
 'status': 'OK'}
-
->>> data['results'].keys()
-dict_keys(['sunrise', 'sunset', 'first_light', 'last_light', 'dawn', 'dusk', 'solar_noon', 'golden_hour', 'day_length', 'timezone'])
 '''
 
