@@ -1,0 +1,82 @@
+
+apk update
+apk upgrade
+apk add zfs
+modprobe zfs
+cd /etc/modules-load.d/
+vi zfs.conf
+  zfs
+rc-status
+rc-update add zfs-import
+rc-update add zfs-mount
+apk add udev
+/etc/init.d/udev start
+rc-update add udev
+/etc/init.d/udev-trigger start
+rc-update add udev-trigger
+fdisk -l | grep "sector size"  # 512 is ashift=9
+cd /dev/disk/by-id
+ls -1 | grep ^ata | grep -v part | grep -v CDDVD | sort
+zpool create -o ashift=9 -f zfs-pool raidz2 ata-ST3250620AS_3QF0ACDF ata-ST3250620AS_3QF0BNN4 ata-ST500DM002-1BD142_Z2AG2J7C ata-ST9250410AS_5VGBWQHG
+zpool status
+zfs list
+zfs set atime=off zfs-pool
+zfs set xattr=sa zfs-pool
+zfs set compression=lz4 zfs-pool
+zfs set recordsize=64K zfs-pool   # default is 128K
+<no cache or zil>
+
+zfs create zfs-pool/var-lib-docker
+zfs set mountpoint=/var/lib/docker zfs-pool/var-lib-docker
+zfs create -o mountpoint=/var/opt/docker zfs-pool/var-opt-docker
+chown -R docker:docker /var/opt/docker
+zfs set canmount=off zfs-pool
+rmdir /zfs-pool
+df
+
+zfs snapshot zfs-pool/var-opt-docker@`date +%y%m%d%H%M`
+zfs list -t snapshot
+zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool
+zfs destroy zfs-pool/var-opt-docker@2302081611
+<https://klarasystems.com/articles/basics-of-zfs-snapshot-management/>
+
+vi /etc/ssh/sshd_config
+  AllowUsers root
+
+vi /etc/apk/repositories 
+   <uncomment community>
+apk update
+adduser -G docker docker
+chown -R docker:docker /var/lib/docker
+apk add docker
+rc-update add docker boot
+service docker start  # or /etc/init.d/docker start
+reboot
+
+su - docker
+docker run --rm hello-world
+
+<https://wiki.alpinelinux.org/wiki/Docker> Isolate containers with a user namespace
+<https://docs.docker.com/storage/storagedriver/zfs-driver/>
+adduser -SDHs /sbin/nologin dockremap
+addgroup -S dockremap
+echo dockremap:$(cat /etc/passwd|grep dockremap|cut -d: -f3):65536 >> /etc/subuid
+echo dockremap:$(cat /etc/passwd|grep dockremap|cut -d: -f4):65536 >> /etc/subgid
+
+vi /etc/docker/daemon.json
+{
+  "userns-remap": "dockremap",
+  "ipv6": false,
+  "experimental": false,
+  "icc": false,
+  "storage-driver": "zfs" 
+  "insecure-registries": [ "registry.localdomain:5000" ]
+}
+
+docker info
+
+apk add git
+mkdir -p /root/source/bgant
+cd /root/source/bgant
+git clone https://github.com/bgant/tools
+
