@@ -15,8 +15,8 @@ docker run -it --rm \
 cp 50-zigbee2mqtt.rules /etc/udev/rules.d/
 reboot
 
+cp /root/source/bgant/tools/alpine-zfs-docker/zigbee2mqtt/configuration.yaml /var/opt/docker/zigbee2mqtt/
 chown dockremap:nogroup /var/opt/docker/zigbee2mqtt/configuration.yml
-ln -s /root/source/bgant/tools/alpine-zfs-docker/zigbee2mqtt/configuration.yaml /var/opt/docker/zigbee2mqtt/
 
 
 # Final command to run container detached

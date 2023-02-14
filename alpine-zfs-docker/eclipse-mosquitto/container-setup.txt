@@ -10,7 +10,7 @@ docker run -it --rm \
    eclipse-mosquitto:2.0.15
 
 
-ln -s /root/source/bgant/alpine-zfs-docker/eclipse-mosquitto/mosquitto.conf /var/opt/docker/eclipse-mosquitto/
+cp /root/source/bgant/alpine-zfs-docker/eclipse-mosquitto/mosquitto.conf /var/opt/docker/eclipse-mosquitto/
 
 
 # Final command to run container detached
