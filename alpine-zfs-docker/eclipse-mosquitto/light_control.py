@@ -18,14 +18,15 @@ from FrontOutsideLights import FrontOutsideLights
 
 try:
     if datetime.now() > datetime.now().replace(hour = 21, minute = 0, second = 0): 
-        sleep(randint(120,840))       # Wait 2 to 14 Minutes to avoid looking like a Timer
+        "waiting for a few minutes to avoid looking like a timer..."
+        sleep(randint(120,840))       # Wait 2 to 14 minutes
         print("Turning front outside lights OFF")
         FrontOutsideLights('OFF')     # Turn lights OFF after 9PM
     else:
         solar_phase = solar_api.phase('sunset')
         while datetime.now() < solar_phase:
             print('waiting for sunset at', solar_phase.strftime('%H:%M:%S'))
-            sleep(randint(300,900))   # Wait 5 to 15 Minutes to avoid looking like a Timer
+            sleep(randint(300,900))   # Wait 5 to 15 minutes
         else:
             print("Turning front outside lights ON")
             FrontOutsideLights('ON')  # Turn lights ON after Sunset
