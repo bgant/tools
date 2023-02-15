@@ -9,12 +9,12 @@
 # 01     21       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
 # 00     22       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
 
-
 from datetime import datetime
-import solar_api
-from FrontOutsideLights import FrontOutsideLights
 from time import sleep
 from random import randint
+
+import solar_api
+from FrontOutsideLights import FrontOutsideLights
 
 try:
     if datetime.now() > datetime.now().replace(hour = 21, minute = 0, second = 0): 
