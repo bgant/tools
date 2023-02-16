@@ -1,0 +1,20 @@
+cd /var/opt/docker/dokuwiki/
+tar xvfz /root/dokuwiki.tar.gz .
+chown -R 1102:nogroup /var/opt/docker/dokuwiki
+
+docker run -it --rm \
+    --name dokuwiki \
+    -p 0.0.0.0:8082:8080 \
+    --env-file /var/opt/configmaps/env-file-dokuwiki \
+    --volume /var/opt/docker/dokuwiki:/bitnami/dokuwiki \
+    bitnami/dokuwiki:20220731.1.0-debian-11-r41
+
+
+docker run -d \
+    --name dokuwiki \
+    --restart unless-stopped \
+    -p 0.0.0.0:8082:8080 \
+    --env-file /var/opt/configmaps/env-file-dokuwiki \
+    --volume /var/opt/docker/dokuwiki:/bitnami/dokuwiki \
+    bitnami/dokuwiki:20220731.1.0-debian-11-r41
+

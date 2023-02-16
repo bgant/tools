@@ -28,8 +28,12 @@ zfs set recordsize=64K zfs-pool   # default is 128K
 
 zfs create zfs-pool/var-lib-docker
 zfs set mountpoint=/var/lib/docker zfs-pool/var-lib-docker
+
 zfs create -o mountpoint=/var/opt/docker zfs-pool/var-opt-docker
 chown -R docker:docker /var/opt/docker
+
+zfs create -o mountpoint=/var/opt/configmaps zfs-pool/configmaps
+
 zfs set canmount=off zfs-pool
 rmdir /zfs-pool
 df
@@ -80,3 +84,5 @@ mkdir -p /root/source/bgant
 cd /root/source/bgant
 git clone https://github.com/bgant/tools
 
+
+zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool

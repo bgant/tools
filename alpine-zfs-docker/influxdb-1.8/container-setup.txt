@@ -1,0 +1,32 @@
+## Kubernetes Server:
+<Execute Shell>
+cd /tmp
+influxd backup -portable influxdb-1.8-2023-02-16.backup 
+tar cvf influxdb-1.8-2023-02-16.backup.tar influxdb-1.8-2023-02-16.backup/
+apk update
+apk add openssh-client
+scp influxdb-1.8-2023-02-16.backup.tar root@docker-asus:/var/opt/configmaps/
+
+## Docker Server:
+ssh root@docker-asus
+cd /var/opt/configmaps
+tar xvf influxdb-1.8-2023-02-16.backup.tar .
+influxdb restore -portable /root/influxdb-1.8-2023-02-16.backup 
+
+
+docker run -it --rm \
+    --name influxdb \
+    -p 0.0.0.0:8086:8086 \
+    --env-file /var/opt/configmaps/env-file-influxdb-1.8 \
+    --volume /var/opt/docker/influxdb-1.8:/var/lib/influxdb \
+    influxdb:1.8.10-alpine
+
+
+docker run -d \                                          
+    --name influxdb \                                          
+    --restart unless-stopped \
+    -p 0.0.0.0:8086:8086 \                                     
+    --env-file /var/opt/configmaps/env-file-influxdb-1.8 \
+    --volume /var/opt/docker/influxdb-1.8:/var/lib/influxdb \
+    influxdb:1.8.10-alpine
+

@@ -1,0 +1,17 @@
+
+docker run -it --rm \
+    --name munin \
+    -p 0.0.0.0:8083:80 \
+    --env-file /var/opt/configmaps/env-file-munin \
+    --volume /var/opt/docker/munin:/var/lib/munin \
+    aheimsbakk/munin-alpine:latest
+
+
+docker run -d \
+    --name munin \
+    --restart unless-stopped \
+    -p 0.0.0.0:8083:80 \
+    --env-file /var/opt/configmaps/env-file-munin \
+    --volume /var/opt/docker/munin:/var/lib/munin \
+    aheimsbakk/munin-alpine:latest
+
