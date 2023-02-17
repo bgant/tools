@@ -1,17 +1,23 @@
 ## Kubernetes Server:
 <Execute Shell>
 cd /tmp
-influxd backup -portable influxdb-1.8-2023-02-16.backup 
-tar cvf influxdb-1.8-2023-02-16.backup.tar influxdb-1.8-2023-02-16.backup/
+influxd backup -portable influxdb-1.8-2023-02-17  <-- ONLY BACKS UP DATA / NO USERS
+tar cvf influxdb-1.8-2023-02-17.tar influxdb-1.8-2023-02-17/
 apk update
 apk add openssh-client
-scp influxdb-1.8-2023-02-16.backup.tar root@docker-asus:/var/opt/configmaps/
+scp influxdb-1.8-2023-02-17.tar root@docker-asus:/var/opt/configmaps/
 
 ## Docker Server:
 ssh root@docker-asus
 cd /var/opt/configmaps
-tar xvf influxdb-1.8-2023-02-16.backup.tar .
-influxdb restore -portable /root/influxdb-1.8-2023-02-16.backup 
+tar xvf influxdb-1.8-2023-02-17.tar .
+mv influxdb-1.8-2023-02-17 /var/opt/docker/influxdb-1.8/
+cd /var/opt/docker/influxdb-1.8/
+chown -R dockremap:nogroup influxdb-1.8-2023-02-17/
+docker exec -it influxdb /bin/bash
+cd /var/lib/influxdb/
+influxd restore -portable influxdb-1.8-2023-02-17
+<must recreate all users and permissions>
 
 
 docker run -it --rm \
@@ -22,11 +28,15 @@ docker run -it --rm \
     influxdb:1.8.10-alpine
 
 
-docker run -d \                                          
-    --name influxdb \                                          
+docker run -d \
+    --name influxdb \
     --restart unless-stopped \
-    -p 0.0.0.0:8086:8086 \                                     
+    -p 0.0.0.0:8086:8086 \
     --env-file /var/opt/configmaps/env-file-influxdb-1.8 \
     --volume /var/opt/docker/influxdb-1.8:/var/lib/influxdb \
     influxdb:1.8.10-alpine
+
+docker logs -f influxdb
+docker exec -it influxdb /bin/bash
+influx -username admin -password '<PASSWORD>'
 

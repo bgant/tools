@@ -1,0 +1,18 @@
+chown -R 573:nogroup /var/opt/docker/grafana
+
+docker run -it --rm \
+    --name grafana \
+    -p 0.0.0.0:3000:3000 \
+    --env-file /var/opt/configmaps/env-file-grafana \
+    --volume /var/opt/docker/grafana:/var/lib/grafana \
+    grafana/grafana:9.3.2
+
+
+docker run -d \
+    --name grafana \
+    --restart unless-stopped \
+    -p 0.0.0.0:3000:3000 \
+    --env-file /var/opt/configmaps/env-file-grafana \
+    --volume /var/opt/docker/grafana:/var/lib/grafana \
+    grafana/grafana:9.3.2
+
