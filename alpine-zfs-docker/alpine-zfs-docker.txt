@@ -84,5 +84,17 @@ mkdir -p /root/source/bgant
 cd /root/source/bgant
 git clone https://github.com/bgant/tools
 
+vi /etc/services
+# Local services
+rtl-433         1433/udp
+mqtt            1883/tcp
+grafana         3000/tcp
+burp            4971/tcp
+registry        5000/tcp
+zigbee2mqtt     8081/tcp
+dokuwiki        8082/tcp
+munin           8083/tcp
+influxdb        8086/tcp
+
 
 zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool
