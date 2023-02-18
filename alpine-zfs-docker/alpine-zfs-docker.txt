@@ -84,6 +84,10 @@ mkdir -p /root/source/bgant
 cd /root/source/bgant
 git clone https://github.com/bgant/tools
 
+# DO NOT USE PIP FOR ENTIRE HOST OS
+apk list -I | grep py3-
+apk add py3-requests py3-paho-mqtt  <-- crontab -l light_control.py script
+
 vi /etc/services
 # Local services
 rtl-433         1433/udp
