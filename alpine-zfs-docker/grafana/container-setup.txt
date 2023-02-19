@@ -17,6 +17,10 @@ docker run -it --rm \
     --volume /var/opt/docker/grafana:/var/lib/grafana \
     grafana/grafana:9.3.2
 
+docker exec -it grafana /bin/sh
+id
+uid=472(grafana) gid=0(root) groups=0(root)
+exit
 chown -R 573:nogroup /var/opt/docker/grafana
 
 
