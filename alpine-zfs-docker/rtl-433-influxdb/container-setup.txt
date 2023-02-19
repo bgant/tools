@@ -1,5 +1,13 @@
 
 
+/var/opt/configmaps/env-file-rtl433-influxdb   <-- no quotes around any values / spaces in values is fine
+INFLUXDB_HOST=
+INFLUXDB_PORT=8086
+INFLUXDB_DATABASE=
+INFLUXDB_USERNAME=
+INFLUXDB_PASSWORD=
+
+
 docker run -it --rm \
     --name rtl-433-influxdb \
     --env-file /var/opt/configmaps/env-file-rtl-433-influxdb \

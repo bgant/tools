@@ -1,6 +1,12 @@
-cd /var/opt/docker/dokuwiki/
-tar xvfz /root/dokuwiki.tar.gz .
-chown -R 1102:nogroup /var/opt/docker/dokuwiki
+
+/var/opt/configmaps/env-file-dokuwiki  <-- No quotes around values / spaces in values are OK
+DOKUWIKI_EMAIL=
+DOKUWIKI_FULL_NAME=
+DOKUWIKI_PASSWORD=
+DOKUWIKI_USERNAME=
+DOKUWIKI_WIKI_NAME=
+PHP_MEMORY_LIMIT=256M
+
 
 docker run -it --rm \
     --name dokuwiki \
@@ -8,6 +14,10 @@ docker run -it --rm \
     --env-file /var/opt/configmaps/env-file-dokuwiki \
     --volume /var/opt/docker/dokuwiki:/bitnami/dokuwiki \
     bitnami/dokuwiki:20220731.1.0-debian-11-r41
+
+cd /var/opt/docker/dokuwiki/                  
+tar xvfz /root/dokuwiki.tar.gz .              
+chown -R 1102:nogroup /var/opt/docker/dokuwiki
 
 
 docker run -d \

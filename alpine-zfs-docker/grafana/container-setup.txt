@@ -1,4 +1,14 @@
-chown -R 573:nogroup /var/opt/docker/grafana
+
+/var/opt/configmaps/env-file-grafana   <-- No quotes around values / spaces in values is OK
+GF_AUTH_ANONYMOUS_ENABLED=true
+GF_AUTH_ANONYMOUS_ORG_NAME=anonymous
+GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+GF_INSTALL_PLUGINS=fetzerch-sunandmoon-datasource
+GF_SERVER_DOMAIN=main-nginx
+GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/dashboard/
+GF_SERVER_SERVE_FROM_SUB_PATH=true
+GF_USERS_ALLOW_SIGN_UP=false
+
 
 docker run -it --rm \
     --name grafana \
@@ -6,6 +16,8 @@ docker run -it --rm \
     --env-file /var/opt/configmaps/env-file-grafana \
     --volume /var/opt/docker/grafana:/var/lib/grafana \
     grafana/grafana:9.3.2
+
+chown -R 573:nogroup /var/opt/docker/grafana
 
 
 docker run -d \

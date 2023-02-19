@@ -100,5 +100,7 @@ dokuwiki        8082/tcp
 munin           8083/tcp
 influxdb        8086/tcp
 
+zpool status
+zfs list | grep -v legacy
 
 zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool
