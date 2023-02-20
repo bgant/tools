@@ -42,7 +42,10 @@ zfs snapshot zfs-pool/var-opt-docker@`date +%y%m%d%H%M`
 zfs list -t snapshot
 zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool
 zfs destroy zfs-pool/var-opt-docker@2302081611
+zfs list -t snapshot | grep 2302161507 | awk '{print $1}' | xargs -I {} zfs destroy {}
 <https://klarasystems.com/articles/basics-of-zfs-snapshot-management/>
+
+apk add zfs-auto-snapshot   <-- adds to /etc/periodic/*/ to automatically take and rotate snapshots
 
 vi /etc/ssh/sshd_config
   AllowUsers root
@@ -103,4 +106,3 @@ influxdb        8086/tcp
 zpool status
 zfs list | grep -v legacy
 
-zfs snapshot -r zfs-pool@`date +%y%m%d%H%M`  # Creates snapshots for all datasets in pool
