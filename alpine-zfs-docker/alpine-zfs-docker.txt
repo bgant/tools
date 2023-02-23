@@ -125,6 +125,29 @@ mkdir munin-monitoring
 cd munin-monitoring
 git clone https://github.com/munin-monitoring/contrib
 
+<Source: https://gallery.munin-monitoring.org/plugins/munin-contrib/zfs_usage_/>
+ln -s /root/source/munin-monitoring/contrib/plugins/zfs/zfs_usage_ /etc/munin/plugins/zfs_usage_zfs-pool
+vi /etc/munin/plugin-conf.d/zzz-myconf
+[zfs_usage_*]
+ user root
+ env.zpoolexec /usr/sbin/zpool
+ env.zfsexec   /usr/sbin/zfs
+rc-service munin-node restart
+tail -f /var/log/munin/munin-node.log
+
+<Source: https://gallery.munin-monitoring.org/plugins/munin-contrib/docker_/>
+vi /etc/munin/plugin-conf.d/zzz-myconf 
+[docker_*]
+ user root
+ env.DOCKER_HOST unix://run/docker.sock
+ln -s /root/source/munin-monitoring/contrib/plugins/docker/docker_ /etc/munin/plugins/docker_cpu
+ln -s /root/source/munin-monitoring/contrib/plugins/docker/docker_ /etc/munin/plugins/docker_memory
+ln -s /root/source/munin-monitoring/contrib/plugins/docker/docker_ /etc/munin/plugins/docker_network
+ln -s /root/source/munin-monitoring/contrib/plugins/docker/docker_ /etc/munin/plugins/docker_containers
+ln -s /root/source/munin-monitoring/contrib/plugins/docker/docker_ /etc/munin/plugins/docker_images
+apk add py3-dockerpty
+rc-service munin-node restart
+
 
 zpool status
 zfs list | grep -v legacy
