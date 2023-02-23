@@ -103,6 +103,29 @@ dokuwiki        8082/tcp
 munin           8083/tcp
 influxdb        8086/tcp
 
+apk add munin-node inetutils-telnet lm-sensors procps findutils
+munin-node-configure --suggestions 
+munin-node-configure --shell | sh    <-- Links suggestions from /usr/lib/munin/plugins/ to /etc/munin/plugins/
+vi /etc/munin/munin-node.conf
+   allow ^172\.17\.0\.4$
+rc-service munin-node restart
+vi /var/opt/configmaps/env-file-munin
+   NODES=docker-asus:172.17.0.1 
+docker restart munin
+docker exec -it munin /bin/bash
+   apk update
+   apk add inetutils-telnet
+   telnet 172.17.0.1 4949
+     list
+     fetch load
+     quit
+   exit
+cd /root/source
+mkdir munin-monitoring
+cd munin-monitoring
+git clone https://github.com/munin-monitoring/contrib
+
+
 zpool status
 zfs list | grep -v legacy
 
