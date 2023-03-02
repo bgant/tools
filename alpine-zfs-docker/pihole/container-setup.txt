@@ -1,0 +1,28 @@
+# Source: https://hub.docker.com/r/pihole/pihole
+# Source: https://github.com/pi-hole/docker-pi-hole/blob/master/examples/docker_run.sh
+
+docker run -it --rm \
+    --name pihole \
+    -p 0.0.0.0:53:53/tcp -p 0.0.0.0:53:53/udp \
+    -p 0.0.0.0:8084:80 \
+    --env-file /var/opt/configmaps/env-file-pihole \
+    pihole/pihole:2023.02.2
+docker logs -f pihole
+    [i] Assigning random password: <random>    <-- Copy random admin password
+docker exec -it pihole pihole -a -p            <-- OR set admin password
+http://docker-asus.localdomain:8084/admin/
+
+
+docker run -d \
+    --name pihole \
+    --restart unless-stopped \
+    -p 0.0.0.0:53:53/tcp -p 0.0.0.0:53:53/udp \
+    -p 0.0.0.0:8084:80 \
+    --env-file /var/opt/configmaps/env-file-pihole \
+    pihole/pihole:2023.02.2
+docker logs -f pihole
+    [i] Assigning random password: <random>    <-- Copy random admin password
+http://docker-asus.localdomain:8084/admin/
+
+
+It doesn't look like volumes are needed. Everything is set using the env-file-pihole config.
