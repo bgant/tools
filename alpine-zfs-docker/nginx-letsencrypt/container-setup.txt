@@ -19,7 +19,7 @@ docker run -it --rm \
     --volume /var/opt/docker/nginx-letsencrypt-certbot:/etc/letsencrypt \
     --volume /var/opt/configmaps/nginx-letsencrypt-config:/etc/nginx/conf.d:ro \
     --volume /var/opt/configmaps/nginx-letsencrypt-index:/var/lib/nginx/html:ro \
-    172.17.0.1:5000/nginx-letsencrypt:2022-11-21
+    172.17.0.1:5000/nginx-letsencrypt:2023-04-16
 
 docker exec -it nginx-letsencrypt /bin/bash
 ls -l /etc/letsencrypt
@@ -55,5 +55,5 @@ docker run -d \
     --volume /var/opt/docker/nginx-letsencrypt-certbot:/etc/letsencrypt \
     --volume /var/opt/configmaps/nginx-letsencrypt-config:/etc/nginx/conf.d:ro \
     --volume /var/opt/configmaps/nginx-letsencrypt-index:/var/lib/nginx/html:ro \
-    172.17.0.1:5000/nginx-letsencrypt:2022-11-21
+    172.17.0.1:5000/nginx-letsencrypt:2023-04-16
 
