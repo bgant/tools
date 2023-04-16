@@ -15,7 +15,7 @@ docker run -it --rm \
     -p 0.0.0.0:3000:3000 \
     --env-file /var/opt/configmaps/env-file-grafana \
     --volume /var/opt/docker/grafana:/var/lib/grafana \
-    grafana/grafana:9.3.2
+    grafana/grafana:9.4.7
 
 docker exec -it grafana /bin/sh
 id
@@ -30,5 +30,5 @@ docker run -d \
     -p 0.0.0.0:3000:3000 \
     --env-file /var/opt/configmaps/env-file-grafana \
     --volume /var/opt/docker/grafana:/var/lib/grafana \
-    grafana/grafana:9.3.2
+    grafana/grafana:9.4.7
 
