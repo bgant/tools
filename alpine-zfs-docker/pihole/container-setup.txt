@@ -6,7 +6,7 @@ docker run -it --rm \
     -p 0.0.0.0:53:53/tcp -p 0.0.0.0:53:53/udp \
     -p 0.0.0.0:8084:80 \
     --env-file /var/opt/configmaps/env-file-pihole \
-    pihole/pihole:2023.02.2
+    pihole/pihole:2023.03.1
 docker logs -f pihole
     [i] Assigning random password: <random>    <-- Copy random admin password
 docker exec -it pihole pihole -a -p            <-- OR set admin password
@@ -19,7 +19,7 @@ docker run -d \
     -p 0.0.0.0:53:53/tcp -p 0.0.0.0:53:53/udp \
     -p 0.0.0.0:8084:80 \
     --env-file /var/opt/configmaps/env-file-pihole \
-    pihole/pihole:2023.02.2
+    pihole/pihole:2023.03.1
 docker logs -f pihole
     [i] Assigning random password: <random>    <-- Copy random admin password
 http://docker-asus.localdomain:8084/admin/
