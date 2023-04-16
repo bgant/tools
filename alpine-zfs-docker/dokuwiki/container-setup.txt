@@ -14,7 +14,7 @@ docker run -it --rm \
     --env-file /var/opt/configmaps/env-file-dokuwiki \
     --user 1001 \
     --volume /var/opt/docker/dokuwiki:/bitnami/dokuwiki \
-    bitnami/dokuwiki:20220731.1.0-debian-11-r41
+    bitnami/dokuwiki:20220731.1.0-debian-11-r73
 
 cd /var/opt/docker/dokuwiki/                  
 tar xvfz /root/dokuwiki.tar.gz .              
@@ -35,7 +35,7 @@ docker run -d \
     -p 0.0.0.0:8082:8080 \
     --env-file /var/opt/configmaps/env-file-dokuwiki \
     --volume /var/opt/docker/dokuwiki:/bitnami/dokuwiki \
-    bitnami/dokuwiki:20220731.1.0-debian-11-r41
+    bitnami/dokuwiki:20220731.1.0-debian-11-r73
 docker exec -u 0:0 dokuwiki chown -R 1001:65534 /bitnami/dokuwiki   <-- Must run every time new container created
 docker restart dokuwiki
 
