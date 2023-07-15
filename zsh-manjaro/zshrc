@@ -1,8 +1,13 @@
 # sudo pacman -Syu zsh
 # cd ~/source/bgant
 # git clone https://github.com/bgant/tools
+# cd ~
 # ln -s ~/source/bgant/tools/zsh-manjaro/zshrc .zshrc
 # chsh -s ${which zsh}
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 # Default Manjaro ZSH Config
 ###################################################
@@ -19,6 +24,7 @@ fi
 
 # Custom Aliases
 ###################################################
+cd ~
 # ln -s ~/source/bgant/tools/zsh-manjaro/aliases .aliases
 source ~/.aliases
 
@@ -30,6 +36,7 @@ source ~/.aliases
 # Antigen ZSH management
 ###################################################
 # Source:  https://dev.to/phuctm97/zsh-antigen-oh-my-zsh-a-beautiful-powerful-and-robust-shell-5da4
+# cd ~
 # curl -L https://git.io/antigen > .antigen.zsh
 # ln -s ~/source/bgant/tools/zsh-manjaro/antigenrc .antigenrc  
 source ".antigen.zsh"         # Load Antigen	

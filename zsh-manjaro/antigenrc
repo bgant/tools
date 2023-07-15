@@ -10,7 +10,7 @@ antigen bundle nmap
 antigen bundle rsync
 antigen bundle vagrant
 antigen bundle screen
-antigen bundle tmux
+#antigen bundle tmux
 
 # Load bundles from external repos
 antigen bundle zsh-users/zsh-completions
