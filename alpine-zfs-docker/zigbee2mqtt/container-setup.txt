@@ -9,7 +9,7 @@ docker run -it --rm \
    -v /var/opt/docker/zigbee2mqtt:/app/data \
    -v /run/udev:/run/udev:ro \
    -e TZ=America/Chicago \
-   koenkk/zigbee2mqtt:1.29.2
+   koenkk/zigbee2mqtt:1.30.3
 
 
 cp 50-zigbee2mqtt.rules /etc/udev/rules.d/
@@ -28,6 +28,6 @@ docker run -d \
    -v /var/opt/docker/zigbee2mqtt:/app/data \
    -v /run/udev:/run/udev:ro \
    -e TZ=America/Chicago \
-   koenkk/zigbee2mqtt:1.29.2
+   koenkk/zigbee2mqtt:1.30.3
 
 docker logs -f zigbee2mqtt

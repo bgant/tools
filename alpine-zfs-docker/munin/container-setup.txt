@@ -1,4 +1,9 @@
 
+/var/opt/configmaps/env-file-munin    <-- no quotes around values / spaces in values is fine
+NODES=server1:192.168.0.1 server2:192.168.0.2 server3:192.168.0.3
+TZ=America/Chicago
+
+
 docker run -it --rm \
     --name munin \
     -p 0.0.0.0:8083:80 \

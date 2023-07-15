@@ -16,7 +16,7 @@ docker run -it --rm \
     -p 0.0.0.0:4971:4971 \
     --volume /var/opt/docker/burp/etc-burp:/etc/burp \
     --volume /var/opt/docker/burp/var-spool-burp:/var/spool/burp \
-    172.17.0.1:5000/burp:2022-11-21
+    172.17.0.1:5000/burp:2023-04-16
 
 
 docker run -d \
@@ -25,4 +25,4 @@ docker run -d \
     -p 0.0.0.0:4971:4971 \
     --volume /var/opt/docker/burp/etc-burp:/etc/burp \
     --volume /var/opt/docker/burp/var-spool-burp:/var/spool/burp \
-    172.17.0.1:5000/burp:2022-11-21
+    172.17.0.1:5000/burp:2023-04-16
