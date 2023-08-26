@@ -48,3 +48,11 @@ docker run -d \
     --env-file /var/opt/configmaps/env-file-joplin-server \
     joplin/server:2.12.1-beta
 
+
+
+# Sources: 
+#    https://hub.docker.com/r/joplin/server
+#    https://github.com/laurent22/joplin/blob/dev/docker-compose.server.yml
+#    https://github.com/laurent22/joplin/blob/dev/.env-sample
+#    https://hub.docker.com/_/postgres
+
