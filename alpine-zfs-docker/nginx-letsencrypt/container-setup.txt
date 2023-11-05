@@ -57,3 +57,33 @@ docker run -d \
     --volume /var/opt/configmaps/nginx-letsencrypt-index:/var/lib/nginx/html:ro \
     172.17.0.1:5000/nginx-letsencrypt:2023-04-16
 
+
+MIGRATE TO NAMED DOCKER VOLUME:
+
+docker stop nginx-letsencrypt
+docker rename nginx-letsencrypt nginx-old
+
+cd /var/opt/docker
+rsync --archive --progress nginx-letsencrypt-certbot/ backup/nginx-letsencrypt-certbot-2023-11-05/
+
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/nginx-letsencrypt-certbot \
+    --opt o=bind \
+    nginx-letsencrypt-certbot
+
+docker volume ls
+
+docker run -d \
+    --name nginx-letsencrypt \
+    --restart unless-stopped \
+    -p 0.0.0.0:80:80 \
+    -p 0.0.0.0:443:443 \
+    --env-file /var/opt/configmaps/env-file-nginx-letsencrypt \
+    --volume nginx-letsencrypt-certbot:/etc/letsencrypt \
+    --volume /var/opt/configmaps/nginx-letsencrypt-config:/etc/nginx/conf.d:ro \
+    --volume /var/opt/configmaps/nginx-letsencrypt-index:/var/lib/nginx/html:ro \
+    172.17.0.1:5000/nginx-letsencrypt:2023-11-05
+
+docker rm nginx-old
+

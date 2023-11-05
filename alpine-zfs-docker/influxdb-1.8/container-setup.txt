@@ -48,3 +48,28 @@ docker logs -f influxdb
 docker exec -it influxdb /bin/bash
 influx -username admin -password '<PASSWORD>'
 
+
+MIGRATE TO NAMED DOCKER VOLUME:
+
+docker stop influxdb
+docker rename influxdb influxdb-old
+
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/influxdb-1.8 \
+    --opt o=bind \
+    influxdb-1.8
+
+docker volume ls
+
+docker run -d \
+    --name influxdb \
+    --restart unless-stopped \
+    -p 0.0.0.0:8086:8086 \
+    --env-file /var/opt/configmaps/env-file-influxdb-1.8 \
+    --volume influxdb-1.8:/var/lib/influxdb \
+    influxdb:1.8.10-alpine
+
+docker logs -f influxdb-1.8
+docker rm influxdb-old
+

@@ -32,3 +32,23 @@ docker run -d \
     --volume /var/opt/docker/grafana:/var/lib/grafana \
     grafana/grafana:9.4.7
 
+
+MIGRATE TO NAMED DOCKER VOLUME:
+
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/grafana \
+    --opt o=bind \
+    grafana
+
+docker volume ls
+
+docker run -d \
+    --name grafana \
+    --restart unless-stopped \
+    -p 0.0.0.0:3000:3000 \
+    --env-file /var/opt/configmaps/env-file-grafana \
+    --volume grafana:/var/lib/grafana \
+    grafana/grafana:10.2.0
+
+

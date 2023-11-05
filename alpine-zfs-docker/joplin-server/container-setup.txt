@@ -13,21 +13,47 @@ docker volume create --driver local \
 docker volume ls
 docker volume inspect joplin-postgres
 
-docker run -it --rm \
-    --name joplin-postgres \
-    -p 172.17.0.1:5432:5432 \
+docker run -it --rm \                                                                       
+    --name joplin-postgres \                                                                
+    -p 172.17.0.1:5432:5432 \                                                               
+    --env-file /var/opt/configmaps/env-file-joplin-server \                                 
+    --volume joplin-postgres:/var/lib/postgresql/data \                                     
+    postgres:15.4-alpine3.18                                                                
+                                                                                            
+                                                                                            
+docker run -d \                                                                             
+    --name joplin-postgres \                                                                
+    -p 172.17.0.1:5432:5432 \                                                               
+    --restart unless-stopped \                                                              
     --env-file /var/opt/configmaps/env-file-joplin-server \
-    --volume joplin-postgres:/var/lib/postgresql/data \
-    postgres:15.4-alpine3.18
+    --volume joplin-postgres:/var/lib/postgresql/data \    
+    postgres:15.4-alpine3.18 
 
+
+UPGRADE TO POSTGRES VERSION 16:
+
+mkdir /var/opt/docker/joplin-postgres-16
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/joplin-postgres-16 \
+    --opt o=bind \
+    joplin-postgres-16
+
+docker exec -it joplin-postgres /usr/local/bin/pg_dumpall -U joplin > /root/postgres-15.4.dumpfile
+docker stop joplin-server
+docker stop joplin-postgres
+docker rename joplin-postgres joplin-postgres-15
 
 docker run -d \
     --name joplin-postgres \
     -p 172.17.0.1:5432:5432 \
     --restart unless-stopped \
     --env-file /var/opt/configmaps/env-file-joplin-server \
-    --volume joplin-postgres:/var/lib/postgresql/data \
-    postgres:15.4-alpine3.18
+    --volume joplin-postgres-16:/var/lib/postgresql/data \
+    postgres:16.0-alpine3.18
+
+docker exec -i joplin-postgres psql -U joplin < /root/postgres-15.4.dumpfile
+docker start joplin-server
 
 
 #################                                                                     
