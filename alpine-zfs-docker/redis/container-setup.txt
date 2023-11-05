@@ -1,0 +1,37 @@
+#################
+# REDIS
+#################
+
+# To avoid permission problems we need to create a named volume in docker for the data
+
+mkdir /var/opt/docker/redis
+
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/redis \
+    --opt o=bind \
+    redis
+
+docker volume ls
+docker volume inspect redis
+
+docker run -it --rm \
+    --name redis \
+    -p 0.0.0.0:6379:6379 \
+    --volume redis:/data \
+    redis:7.2.0-alpine3.18 \
+    redis-server --save 60 1 --loglevel warning
+
+
+docker run -d \
+    --name redis \
+    -p 172.17.0.1:5432:5432 \
+    --restart unless-stopped \
+    --volume redis:/data \
+    redis:7.2.0-alpine3.18 
+
+
+    --env-file /var/opt/configmaps/env-file-redis \
+
+# Sources: 
+#    
