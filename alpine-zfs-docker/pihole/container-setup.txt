@@ -24,6 +24,8 @@ docker logs -f pihole
     [i] Assigning random password: <random>    <-- Copy random admin password
 http://docker-asus.localdomain:8084/admin/
 
+docker logs pihole 2>&1 | grep 'random password'
+
 
 It doesn't look like volumes are needed. Everything is set using the env-file-pihole config.
 
