@@ -5,7 +5,7 @@
 # pip install wheel paho-mqtt requests
 # chmod +x light_control.py
 # crontab -e  # Turn ON lights at 4:50 and Turn OFF at 9:15 and 10:00PM (just in case)
-# 30     16       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
+# 10     16       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
 # 01     21       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
 # 00     22       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/eclipse-mosquitto/light_control.py
 
