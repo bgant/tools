@@ -12,6 +12,8 @@
 from datetime import datetime
 from time import sleep
 from random import randint
+import logging
+logging.basicConfig(level=logging.INFO, filename='/var/log/light_control.log', format='%(asctime)s:%(levelname)s:%(message)s')
 
 import solar_api
 from FrontOutsideLights import FrontOutsideLights
@@ -19,17 +21,23 @@ from FrontOutsideLights import FrontOutsideLights
 try:
     if datetime.now() > datetime.now().replace(hour = 21, minute = 0, second = 0): 
         "waiting for a few minutes to avoid looking like a timer..."
-        sleep(randint(120,840))       # Wait 2 to 14 minutes
+        wait_time = randint(120,840)  # Wait 2 to 14 minutes
+        logging.info(f'Waiting {wait_time} seconds before turning light off...')
+        sleep(wait_time)
         print("Turning front outside lights OFF")
         FrontOutsideLights('OFF')     # Turn lights OFF after 9PM
+        logging.info(f'Light is OFF')
     else:
         solar_phase = solar_api.phase('sunset')
         while datetime.now() < solar_phase:
             print('waiting for sunset at', solar_phase.strftime('%H:%M:%S'))
-            sleep(randint(300,900))   # Wait 5 to 15 minutes
+            wait_time = randint(300,600)  # Wait 5 to 10 minutes
+            logging.info(f'Not yet Sunset... Waiting {wait_time} seconds before checking again...')
+            sleep(wait_time)
         else:
             print("Turning front outside lights ON")
             FrontOutsideLights('ON')  # Turn lights ON after Sunset
+            logging.info(f'Light is ON')
 except KeyboardInterrupt:
     pass
 
