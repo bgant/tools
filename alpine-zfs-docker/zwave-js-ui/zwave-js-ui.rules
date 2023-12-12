@@ -17,4 +17,4 @@
 # docker-asus:~# udevadm control --reload && udevadm trigger  --OR--  /etc/init.d/udev restart
 # docker-asus:~# ls -l /dev/
 
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0666", SYMLINK+="zwave"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE="0666", SYMLINK+="usb-zwave"
