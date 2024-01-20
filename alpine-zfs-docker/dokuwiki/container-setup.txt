@@ -62,7 +62,7 @@ docker run -d \
     -p 0.0.0.0:8082:8080 \
     --env-file /var/opt/configmaps/env-file-dokuwiki \
     --volume dokuwiki:/bitnami/dokuwiki \
-    bitnami/dokuwiki:20230404.1.0-debian-11-r102
+    bitnami/dokuwiki:20230404.1.0-debian-11-r107
 
 
 

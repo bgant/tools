@@ -49,6 +49,6 @@ docker run -d \
     -p 0.0.0.0:3000:3000 \
     --env-file /var/opt/configmaps/env-file-grafana \
     --volume grafana:/var/lib/grafana \
-    grafana/grafana:10.2.0
+    grafana/grafana:10.2.3
 
 

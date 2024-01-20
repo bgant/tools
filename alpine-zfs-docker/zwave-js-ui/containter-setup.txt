@@ -37,6 +37,6 @@ docker run -d \
    -p 0.0.0.0:8091:8091 \
    -v zwave-js-ui:/usr/src/app/store/ \
    -e TZ=America/Chicago \
-   zwavejs/zwave-js-ui:9.5.1
+   zwavejs/zwave-js-ui:9.7.1
 
 docker logs -f zigbee2mqtt
