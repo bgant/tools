@@ -51,4 +51,8 @@ docker run -d \
     --volume grafana:/var/lib/grafana \
     grafana/grafana:10.2.3
 
+--OR--
+
+docker compose -f grafana.yaml up --detach
+docker compose -f grafana.yaml down
 
