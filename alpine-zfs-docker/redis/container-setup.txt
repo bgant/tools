@@ -36,7 +36,7 @@ docker run -d \
     --volume redis:/data \
     --volume /var/opt/configmaps/redis.conf:/etc/redis.conf:ro \
     --volume /var/opt/configmaps/redis_aclfile.conf:/etc/redis_aclfile.conf:ro \
-    redislabs/redistimeseries:1.10.11 \
+    redislabs/redistimeseries:1.12.1 \
     redis-server /etc/redis.conf
 
 
