@@ -14,7 +14,7 @@ services:
             - GF_LOG_FILTERS=rendering:debug 
         volumes:
             - grafana:/var/lib/grafana
-        image: grafana/grafana:9.5.18-ubuntu
+        image: grafana/grafana:9.5.19-ubuntu
     renderer:
         container_name: grafana-image-renderer
         restart: unless-stopped
@@ -22,7 +22,7 @@ services:
             - 0.0.0.0:8085:8081
         environment:
             - AUTH_TOKEN=hello
-        image: grafana/grafana-image-renderer:3.10.3
+        image: grafana/grafana-image-renderer:3.10.5
 volumes:
     grafana:
         external: true

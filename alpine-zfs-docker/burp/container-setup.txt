@@ -53,6 +53,6 @@ docker run -d \
     -p 0.0.0.0:4971:4971 \
     --volume burp-etc:/etc/burp \
     --volume burp-backup-data:/var/spool/burp \
-    172.17.0.1:5000/burp:2023-11-05
+    172.17.0.1:5000/burp:2024-06-03
 
 docker rm burp-old
