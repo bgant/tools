@@ -1,0 +1,29 @@
+" Source: https://medium.com/swlh/set-up-a-shell-python-development-environment-from-scratch-part-1-zsh-vim-configuration-8b6c2cc3fb1b
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source $MYVIMRC | endif
+
+call plug#begin()
+
+"https://github.com/junegunn/vim-plug
+Plug 'tpope/vim-sensible'
+
+"https://github.com/preservim/nerdtree
+" :NERDTree
+"Plug 'preservim/nerdtree'
+
+call plug#end()
+
+"---
+"powerline
+"Source: https://forum.manjaro.org/t/howto-p10k-powerline-and-zsh-101/61160
+"pamac install powerline vim
+"see https://wiki.archlinux.org/index.php/Powerline#Vim
+"let g:powerline_pycmd="py"
+set rtp+=/usr/share/powerline/bindings/vim
+set laststatus=2

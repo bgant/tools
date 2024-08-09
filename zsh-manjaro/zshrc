@@ -12,15 +12,27 @@ export LANGUAGE=en_US.UTF-8
 # Default Manjaro ZSH Config
 ###################################################
 # Use powerline
-USE_POWERLINE="true"
+#USE_POWERLINE="true"
 # Source manjaro-zsh-configuration
-if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
-  source /usr/share/zsh/manjaro-zsh-config
-fi
+#if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
+#  source /usr/share/zsh/manjaro-zsh-config
+#fi
+
+# Use "the genuine" powerline
+# Source: https://forum.manjaro.org/t/howto-p10k-powerline-and-zsh-101/61160
+# pamac install powerline
+# See https://wiki.archlinux.org/index.php/Powerline#Zsh
+#prompt off
+powerline-daemon -q
+. /usr/share/powerline/bindings/zsh/powerline.zsh
+
 # Use manjaro zsh prompt
 if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
   source /usr/share/zsh/manjaro-zsh-prompt
 fi
+
+# To customize prompt, run `p10k configure` or edit /usr/share/zsh/p10k.zsh.
+#[[ ! -f /usr/share/zsh/p10k.zsh ]] || source /usr/share/zsh/p10k.zsh
 
 # Custom Aliases
 ###################################################
@@ -41,12 +53,13 @@ source ~/.aliases
 # ln -s ~/source/bgant/tools/zsh-manjaro/antigenrc .antigenrc  
 source ".antigen.zsh"         # Load Antigen	
 antigen init ~/.antigenrc     # Load Antigen configurations
+#antigen update               # Update all modules
 
 # Python Autoswitch Virtual Environment
 ###################################################
 # Source: https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
 # Default Environment (rmvenv, mkvenv, pip-update)
-export AUTOSWITCH_DEFAULTENV="home/temp/.venv"
+export AUTOSWITCH_DEFAULTENV="~/.venv"
 
 # Tmux
 ###################################################
