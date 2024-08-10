@@ -1,0 +1,108 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+
+#
+# .zshrc is sourced in interactive shells.
+# It should contain commands to set up aliases,
+# functions, options, key bindings, etc.
+#
+
+autoload -U compinit
+compinit
+
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
+
+## keep background processes at full speed
+#setopt NOBGNICE
+## restart running processes on exit
+#setopt HUP
+
+## history
+# https://linuxhandbook.com/zsh-command-history/
+HISTFILE=~/.zsh_history
+setopt APPEND_HISTORY
+# for sharing history between zsh processes
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+# How many commands to store in history
+HISTSIZE=10000
+SAVEHIST=10000
+# Do not save duplicate commands to history
+setopt HIST_IGNORE_ALL_DUPS
+# Do not find duplicate command when searching
+setopt HIST_FIND_NO_DUPS
+# Clear history file
+# truncate -s 0 "${HISTFILE}"
+
+## never ever beep ever
+#setopt NO_BEEP
+
+## automatically decide when to page a list of completions
+#LISTMAX=0
+
+## disable mail checking
+#MAILCHECK=0
+
+# autoload -U colors
+#colors
+
+
+# brew install powerlevel10k
+source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# brew search zsh
+# brew info zsh-completions
+# brew install zsh-completions
+# This project gathers new completion scripts that are not available in Zsh yet...
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
+#You may also need to force rebuild `zcompdump`:
+#rm -f ~/.zcompdump; compinit
+
+# brew install zsh-autocomplete
+# This shows multiple options as you type instead of just when you hit the Tab key
+# Installation recommends commenting out any "compinit" lines in .zshrc
+#source $HOMEBREW_PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+# brew install zsh-autosuggestions
+# This looks through .history and adds grey text of previous commands as you are typing
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# brew install zsh-history-substring-search
+# This looks through .zsh_history and narrows down which previous commands you have run
+source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Run "cat -v" and hit up and down arrows to verify key codes
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# brew install zsh-fast-syntax-highlighting
+# This changes the colors of commands you type (green = found, red = not found, etc)
+source $HOMEBREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
+# mkdir ~/source/MichaelAquilina; cd ~/source/MichaelAquilina; git clone --depth=1 https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
+# This activates a .venv Python virtual environment if it exists / rmvenv && mkvenv
+source ~/source/MichaelAquilina/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
+export AUTOSWITCH_DEFAULTENV="~/.venv"
+
+# mkdir ~/source/agkozak; cd ~/source/agkozak; git clone --depth=1 https://github.com/agkozak/zsh-z
+# This keeps track of the directories you use / Use Tab to jump to recent or most used directories
+source ~/source/agkozak/zsh-z/zsh-z.plugin.zsh
+autoload -U compinit; compinit
+zstyle ':completion:*' menu select
+
+# brew install antigen
+#source $HOMEBREW_PREFIX/share/antigen/antigen.zsh
+#antigen bundle <bundle name>
+#antigen apply
+
+alias vi="/usr/bin/vim"

@@ -1,0 +1,55 @@
+" Source: https://medium.com/swlh/set-up-a-shell-python-development-environment-from-scratch-part-1-zsh-vim-configuration-8b6c2cc3fb1b
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source $MYVIMRC | endif
+
+call plug#begin()
+
+" https://github.com/junegunn/vim-plug
+Plug 'tpope/vim-sensible'
+
+" https://realpython.com/vim-and-python-a-match-made-in-heaven/
+Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" https://github.com/preservim/nerdtree
+" :NERDTree
+"Plug 'preservim/nerdtree'
+
+Plug 'vim-scripts/indentpython.vim'
+"Plug 'nvie/vim-flake8'
+
+call plug#end()
+
+" Everything below is from the following URLs:
+" https://realpython.com/vim-and-python-a-match-made-in-heaven/
+" https://stackoverflow.com/questions/48869590/unix-vim-error-detected-while-processing-bufread-auto-commands
+
+" Flag Bad Whitespace
+highlight BadWhitespace ctermbg=red guibg=red
+au BufNewFile,BufRead *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Display tabs at the beginning of a line in Python mode as bad.
+highlight BadTabspace ctermbg=cyan guibg=cyan
+au BufRead,BufNewFile *.py,*.pyw,*.txt match BadTabspace /^\t\+/
+
+" PEP 8 Indents in Python
+au BufNewFile,BufRead *.py set
+    \ tabstop=4
+    \ softtabstop=4
+    \ shiftwidth=4
+    \ textwidth=79
+    \ expandtab
+    \ autoindent
+    \ fileformat=unix
+    \ encoding=utf-8
+    \ nu
+
+" Syntax highlighting
+let python_highlight_all=1
+syntax on
+
