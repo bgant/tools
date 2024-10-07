@@ -12,7 +12,7 @@ echo "Sending Request to Turn Lights Off..."
 mosquitto_pub -h 172.17.0.1 -p 1883 -t 'zigbee2mqtt/FrontOutsideLights/set' -m '{ "state": "OFF" }'
 echo "Waiting 30 seconds for any errors..."
 sleep 30
-if [ `docker logs --since 2m zigbee2mqtt | grep -c Zigbee2MQTT:error` != 0 ]
+if [ `docker logs --since 2m zigbee2mqtt | grep -c Error` != 0 ]
 then 
    echo "Errors Found in Logs... Restarting Container..."
    docker restart zigbee2mqtt
