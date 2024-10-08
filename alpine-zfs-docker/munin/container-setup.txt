@@ -45,3 +45,11 @@ docker run -d \
     --volume munin:/var/lib/munin \
     aheimsbakk/munin-alpine:latest
 
+docker run -d \
+    --name munin \
+    --restart unless-stopped \
+    --stop-timeout 60 \
+    -p 0.0.0.0:8083:80 \
+    --env-file /var/opt/configmaps/env-file-munin \
+    --volume munin:/var/lib/munin \
+    dockurr/munin:2.0.76
