@@ -71,4 +71,22 @@ numbers = [-3, 4, 2]
 sort(numbers)   <-- [-3, 2, 4]
 sort(numbers, key=abs)   <-- [2, -3, 4]  <-- doesn't change the values
 
+### Break text into list
+a = [*"xyz"]   <-- ['x','y','z']
+
+### Create list of unique values
+a = [1,1,1,2,3,3]
+my_list = [*set(a)]  <-- [1,2,3]
+
+### if/then one-liner
+a = 5
+b = 6
+ans = "Yes" if a < b else "No"
+
+### First and Last elements
+a, *_, b = [1,2,3,4,5,6] 
+
+### Unpacking
+a, b, *c, d = (1,2,3,4,5)   <-- a=1, b=2, c=[3,4], d=5
+a, b, *_ = (1,2,3,4,5)   <-- a=1, b=2
 

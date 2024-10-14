@@ -108,4 +108,13 @@ count = mydict["count"]  <-- Generates error for missing key
 
 count = mydict.get("count", 0)  <-- if count is missing, return 0
 
+### Open file for reading
+# instead of
+f = open('test.txt', 'r')
+file_contents = f.read()
+f.close()
+
+# do this
+with open('test.txt', 'r') as f:
+    file_contents = f.read()
 
