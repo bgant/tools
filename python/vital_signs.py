@@ -9,7 +9,7 @@ class Check:
             print('ERROR: Operating System Not Supported')
 
     def run(self, command_string):
-        '''Shorter way to run command'''
+        '''Shorter way to run subprocess command'''
         try:
             output = subprocess.check_output(command_string, stderr=subprocess.STDOUT, shell=True, text=True)
         except subprocess.CalledProcessError as e:
@@ -56,7 +56,7 @@ class Check:
         self.udp_command = 'nc -vzu ' # Add <server> <port>
 
     def manjaro_commands(self):
-        '''Commands on Manjaro operating system'''
+        """Commands on Manjaro operating system"""
         pass
 
     def save_state(self):
@@ -71,14 +71,14 @@ class Check:
 
     def memory(self):
         '''Return True if Memory usage is OK'''
-        self.mem_total = int(self.run(self.mem_total_command))
-        self.mem_used =  int(self.run(self.mem_used_command))
+        self.mem_total = float(self.run(self.mem_total_command))*0.95  # Bad if within 95% of Max
+        self.mem_used =  float(self.run(self.mem_used_command))
         return True if self.mem_used < self.mem_total else False
 
     def disk(self):
         '''Return True if root volume is OK'''
-        self.root_total = int(self.run(self.root_total_command))
-        self.root_used  = int(self.run(self.root_used_command))
+        self.root_total = float(self.run(self.root_total_command))*0.95  # Bad if within 95% of Max
+        self.root_used  = float(self.run(self.root_used_command))
         return True if self.root_used < self.root_total else False
 
     def link(self):
@@ -166,8 +166,7 @@ if __name__ == '__main__':
     if check.dns():
         print('DNS:    OK')
     elif check.dns_google():
-        print('DNS:    ISP Down but Google works')
+        print('DNS:    ISP Server Down but Google DNS works')
     else:
         print('DNS:    Not Responding')
-
 
