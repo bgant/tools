@@ -4,57 +4,170 @@ import subprocess
 class Check:
     def __init__(self):
         if 'bluefin' in self.run('cat /etc/os-release'):
-            self.bluefin_data()
-        pass
+            self.bluefin_commands()
+        else:
+            print('ERROR: Operating System Not Supported')
 
     def run(self, command_string):
         '''Shorter way to run command'''
-        return subprocess.check_output(command_string, shell=True, text=True)
+        try:
+            output = subprocess.check_output(command_string, stderr=subprocess.STDOUT, shell=True, text=True)
+        except subprocess.CalledProcessError as e:
+            output = e.output
+        return output
 
-    def bluefin_data(self):
-        '''Gather data on Bluefin operating system'''
+    def bluefin_commands(self):
+        '''Commands on Bluefin operating system'''
         # CPU
-        self.cpu_cores = float(self.run('grep -c "cpu cores" /proc/cpuinfo').split()[0])
-        self.cpu_load =  float(self.run('cat /proc/loadavg').split()[1])
+        self.cpu_cores_command = "grep -c 'cpu cores' /proc/cpuinfo"
+        self.cpu_load_command  = "cat /proc/loadavg | awk '{print $2}'"
 
         # MEMORY
-        free_output = self.run('free | grep Mem')
-        self.mem_total = int(free_output.split()[1])
-        self.mem_used  = int(free_output.split()[2])
+        self.mem_total_command = "free | grep Mem | awk '{print $2}'"
+        self.mem_used_command  = "free | grep Mem | awk '{print $3}'"
 
         # ROOT DISK
-        df_output = self.run('df / | grep /')
-        self.root_total = int(df_output.split()[1])
-        self.root_used = int(df_output.split()[2])
+        self.root_total_command = "df / | grep / | awk '{print $2}'"
+        self.root_used_command  = "df / | grep / | awk '{print $3}'"
 
         # INTERFACE
-        iface = 'wlp1s0' # Need a way to specify interface in setup
-        ifconfig_output = self.run(f'ifconfig {iface}')
-        self.link_status = 'UP' if 'UP' in ifconfig_output else 'DOWN'
-        self.network = self.run(f'nmcli dev show {iface} | grep GENERAL.TYPE').split()[1]
-        self.ip = self.run(f'nmcli dev show {iface} | grep IP4.ADDRESS').split()[1]
-        self.gateway = self.run(f'nmcli dev show {iface} | grep IP4.GATEWAY').split()[1]
-        self.dns_server = self.run(f'nmcli dev show {iface} | grep IP4.DNS').split()[1]
+        self.iface = self.run("nmcli dev | grep -v loopback | grep ' connected' | awk '{print $1}'")
+        if self.iface:
+            self.iface = self.iface.rsplit()[0]
+        else:
+            self.iface = 'unknown'
+
+        self.link_status_command = f"ifconfig {self.iface}"
+        nmcli_command = f'nmcli dev show {self.iface}'
+        self.network_type_command = nmcli_command + " | grep GENERAL.TYPE | awk '{print $2}'"
+        self.gateway_command      = nmcli_command + " | grep IP4.GATEWAY | awk '{print $2}'"
+        self.ip_command           = nmcli_command + " | grep IP4.ADDRESS | awk '{print $2}'"
+
+        # NETWORK
+        self.ping_command = 'ping -nq -i0.5 -c3 '  # Add <server>
+        self.traceroute_command = 'traceroute -Fn --max-hops=4 '  # Add <server>
+
+        # DNS
+        self.dns_server_command   = nmcli_command + " | grep IP4.DNS | awk '{print $2}'"
+        self.dns_request_command  = 'nslookup cloudflare.com '  # Add <server>
+
+        # SERVICE
+        self.tcp_command = 'nc -vz '  # Add <server> <port>
+        self.udp_command = 'nc -vzu ' # Add <server> <port>
 
     def manjaro_commands(self):
-        '''Gather data on Manjaro operating system'''
+        '''Commands on Manjaro operating system'''
         pass
 
     def save_state(self):
+        '''Save variables and state for next run'''
         pass
 
     def cpu(self):
         '''Return True if CPU load is OK'''
+        self.cpu_cores = float(self.run(self.cpu_cores_command))
+        self.cpu_load  = float(self.run(self.cpu_load_command))
         return True if self.cpu_load <= self.cpu_cores else False
 
     def memory(self):
         '''Return True if Memory usage is OK'''
+        self.mem_total = int(self.run(self.mem_total_command))
+        self.mem_used =  int(self.run(self.mem_used_command))
         return True if self.mem_used < self.mem_total else False
 
     def disk(self):
         '''Return True if root volume is OK'''
+        self.root_total = int(self.run(self.root_total_command))
+        self.root_used  = int(self.run(self.root_used_command))
         return True if self.root_used < self.root_total else False
 
     def link(self):
         '''Return True if network link is UP'''
+        self.network_type = self.run(self.network_type_command)
+        if 'Error' in self.network_type:
+            self.network_type = None
+        else:
+            self.network_type = self.network_type.rsplit()[0]  # Remove newline
+
+        self.link_status = 'UP' if 'UP' in self.run(self.link_status_command) else 'DOWN'
         return True if 'UP' in self.link_status else False
+
+    def dhcp(self):
+        '''Return True if IP is assigned to Interface'''
+        self.ip = self.run(self.ip_command)
+        if not self.ip:
+            return False
+        if 'Error' in self.ip:
+            self.ip = None
+            return False
+        self.ip = self.ip.rsplit()[0]  # Remove newline
+        return True
+
+    def router(self):
+        '''Return True if local router/gateway responds to pings'''
+        self.gateway = self.run(self.gateway_command)
+        if '--' in self.gateway:
+            self.gateway = None
+            return False
+        if 'Error' in self.gateway:
+            self.gateway = None
+            return False
+        self.gateway = self.gateway.rsplit()[0]  # Remove newline
+        ping_output = self.run(self.ping_command + self.gateway)
+        return False if '100% packet loss' in ping_output else True
+
+    def traceroute(self):
+        '''Return True if ISP routers are responding to traceroute'''
+        target = '8.8.8.8'
+        self.traceroute_output = self.run(self.traceroute_command + target)
+        return False if 'Network is unreachable' in self.traceroute_output else True
+
+    def dns(self):
+        '''Return True if ISP DNS responds to requests'''
+        self.dns_server = self.run(self.dns_server_command)
+        if not self.dns_server:
+            return False
+        if 'Error' in self.dns_server:
+            self.dns_server = None
+            return False
+        self.dns_server = self.dns_server.rsplit()[0]  # Remove newline
+        dns_request = self.run(self.dns_request_command + self.dns_server)
+        return False if 'no servers could be reached' in dns_request else True
+
+    def dns_google(self):
+        '''Return True if Google DNS server responds to requests'''
+        dns_google    = self.run(self.dns_request_command + '8.8.4.4')
+        return False if 'no servers could be reached' in dns_google else True
+
+    def dns_quad9(self):
+        '''Return True if Quad9 DNS server responds to requests'''
+        dns_quad9     = self.run(self.dns_request_command + '9.9.9.9')
+        return False if 'no servers could be reached' in dns_quad9 else True
+
+    def tcp(self, host, port):
+        '''Return True if TCP connection to port is established'''
+        connect = self.run(self.tcp_command + host + ' ' + port)
+        return False if 'Connection refused' in connect else True
+
+    def udp(self, host, port):
+        '''Return True if UDP connection to port is established'''
+        connect = self.run(self.udp_command + host + ' ' + port)
+        return False if 'Connection refused' in connect else True
+
+if __name__ == '__main__':
+    check = Check()
+    print('CPU:    OK') if check.cpu()        else print('CPU:    High')
+    print('Memory: OK') if check.memory()     else print('Memory: No Space')
+    print('Disk:   OK') if check.disk()       else print('Disk:   No Space')
+    print(f'Link:   {check.link_status} ({check.network_type} {check.iface})') if check.link() else print('Link:   DOWN')
+    print('DHCP:   OK') if check.dhcp()       else print('DHCP:   Not Responding')
+    print('Router: OK') if check.router()     else print('Router: Not Responding')
+    print('ISP:    OK') if check.traceroute() else print('ISP:    Not Responding')
+    if check.dns():
+        print('DNS:    OK')
+    elif check.dns_google():
+        print('DNS:    ISP Down but Google works')
+    else:
+        print('DNS:    Not Responding')
+
+
