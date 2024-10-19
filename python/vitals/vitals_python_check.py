@@ -169,4 +169,3 @@ if __name__ == '__main__':
         print('DNS:    ISP Server Down but Google DNS works')
     else:
         print('DNS:    Not Responding')
-
