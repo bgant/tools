@@ -171,11 +171,11 @@ if __name__ == '__main__':
     print(f'Link:   {check.link_status} ({check.network_type} {check.iface})') if check.link() else print('Link:   DOWN')
     print('DHCP:   YES') if check.dhcp()      else print('DHCP:   No')
     print(f'IP:     {check.ip_address}') if check.ip() else print('IP:    No')
-    print('Router: OK') if check.router()     else print('Router: Not Responding')
+    print(f'Router: OK {check.gateway}') if check.router()     else print(f'Router: {check.gateway} Not Responding')
     print('ISP:    OK') if check.traceroute() else print('ISP:    Not Responding')
     if check.dns():
-        print('DNS:    OK')
+        print(f'DNS:    OK {check.dns_server}')
     elif check.dns_google():
         print('DNS:    ISP Server Down but Google DNS works')
     else:
-        print('DNS:    Not Responding')
+        print(f'DNS:    {check_dns_server} Not Responding')
