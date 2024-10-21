@@ -31,17 +31,13 @@ class Check:
         self.root_used_command  = "df / | grep / | awk '{print $3}'"
 
         # INTERFACE
-        self.iface = self.run("nmcli dev | grep -v loopback | grep ' connected' | awk '{print $1}'")
-        if self.iface:
-            self.iface = self.iface.rsplit()[0]
-        else:
-            self.iface = 'unknown'
-
+        self.get_connected_interface()
         self.link_status_command = f"ifconfig {self.iface}"
         nmcli_command = f'nmcli dev show {self.iface}'
         self.network_type_command = nmcli_command + " | grep GENERAL.TYPE | awk '{print $2}'"
         self.gateway_command      = nmcli_command + " | grep IP4.GATEWAY | awk '{print $2}'"
         self.ip_command           = nmcli_command + " | grep IP4.ADDRESS | awk '{print $2}'"
+        self.dhcp_command         = 'ip route list default'  # search for dhcp or static
 
         # NETWORK
         self.ping_command = 'ping -nq -i0.5 -c3 '  # Add <server>
@@ -81,8 +77,17 @@ class Check:
         self.root_used  = float(self.run(self.root_used_command))
         return True if self.root_used < self.root_total else False
 
+    def get_connected_interface(self):
+        '''Get connected interface name'''
+        self.iface = self.run("nmcli dev | grep -v loopback | grep ' connected' | awk '{print $1}'")
+        if self.iface:
+            self.iface = self.iface.rsplit()[0]
+        else:
+            self.iface = 'unknown'
+
     def link(self):
         '''Return True if network link is UP'''
+        self.get_connected_interface()
         self.network_type = self.run(self.network_type_command)
         if 'Error' in self.network_type:
             self.network_type = None
@@ -93,14 +98,18 @@ class Check:
         return True if 'UP' in self.link_status else False
 
     def dhcp(self):
+        '''Return True if using DHCP'''
+        return True if 'dhcp' in self.run(self.dhcp_command) else False
+
+    def ip(self):
         '''Return True if IP is assigned to Interface'''
-        self.ip = self.run(self.ip_command)
-        if not self.ip:
+        self.ip_address = self.run(self.ip_command)
+        if not self.ip_address:
             return False
-        if 'Error' in self.ip:
-            self.ip = None
+        if 'Error' in self.ip_address:
+            self.ip_address = None
             return False
-        self.ip = self.ip.rsplit()[0]  # Remove newline
+        self.ip_address = self.ip_address.rsplit()[0]  # Remove newline
         return True
 
     def router(self):
@@ -160,7 +169,8 @@ if __name__ == '__main__':
     print('Memory: OK') if check.memory()     else print('Memory: No Space')
     print('Disk:   OK') if check.disk()       else print('Disk:   No Space')
     print(f'Link:   {check.link_status} ({check.network_type} {check.iface})') if check.link() else print('Link:   DOWN')
-    print('DHCP:   OK') if check.dhcp()       else print('DHCP:   Not Responding')
+    print('DHCP:   YES') if check.dhcp()      else print('DHCP:   No')
+    print(f'IP:     {check.ip_address}') if check.ip() else print('IP:    No')
     print('Router: OK') if check.router()     else print('Router: Not Responding')
     print('ISP:    OK') if check.traceroute() else print('ISP:    Not Responding')
     if check.dns():
