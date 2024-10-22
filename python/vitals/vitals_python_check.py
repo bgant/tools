@@ -3,6 +3,9 @@ import subprocess
 
 class Check:
     def __init__(self):
+        pass
+
+    def init(self):
         if 'bluefin' in self.run('cat /etc/os-release'):
             self.bluefin_commands()
         else:
@@ -165,6 +168,7 @@ class Check:
 
 if __name__ == '__main__':
     check = Check()
+    check.init()
     print('CPU:    OK') if check.cpu()        else print('CPU:    High')
     print('Memory: OK') if check.memory()     else print('Memory: No Space')
     print('Disk:   OK') if check.disk()       else print('Disk:   No Space')

@@ -1,4 +1,6 @@
-# brew install pyqt
+#!/usr/bin/python
+#
+# pip install pyqt  <-- DO NOT USE brew install pyqt
 
 from sys import exit
 from PyQt6.QtGui import QPixmap
@@ -9,6 +11,12 @@ class Window(QWidget):
     def __init__(self):
         super().__init__()
         self.check = Check()
+        self.check.init()
+        self.tests = {'link':self.check.link,
+                 'router':self.check.router,
+                 'dhcp':self.check.dhcp,
+                 'internet':self.check.traceroute,
+                 'dns':self.check.dns}
         self.UI()
 
     def UI(self):
@@ -47,15 +55,11 @@ class Window(QWidget):
         self.show()
 
     def on_button_run_click(self):
-        tests = {'link':self.check.link,
-                 'router':self.check.router,
-                 'dhcp':self.check.dhcp,
-                 'internet':self.check.traceroute,
-                 'dns':self.check.dns}
-        print('---Resetting Images---')
-        for device,test in tests.items():
+        print('---Re-initializing Check module---')
+        self.check.init() 
+        for device,test in self.tests.items():
             self.change_image(device,'grey') # Reset Images
-        for device,test in tests.items():
+        for device,test in self.tests.items():
             print(f'Running check.{device}')
             if test():
                 self.change_image(device,'green')
@@ -63,6 +67,7 @@ class Window(QWidget):
                 self.change_image(device,'red')
                 if device in ['link','router']:
                     break
+        print('---Done---')
 
     def change_image(self, device, color):
         image    = f'vitals_{device}_{color}.png'
