@@ -42,12 +42,12 @@ au BufNewFile,BufRead *.py set
     \ tabstop=4
     \ softtabstop=4
     \ shiftwidth=4
-    \ textwidth=79
     \ expandtab
     \ autoindent
     \ fileformat=unix
     \ encoding=utf-8
     \ nu
+" \ textwidth = 79
 
 " Syntax highlighting
 let python_highlight_all=1
