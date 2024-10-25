@@ -1,0 +1,11 @@
+# ln -s ~/.local/share/applications/vitals.desktop ~/.source/bgant/tools/python/vitals/vitals.desktop
+# Should soon show up in Apps
+[Desktop Entry]
+Type=Application
+NoDisplay=false
+Terminal=false
+Encoding=UTF-8
+Name=Network Vitals
+Comment=Bash Launch Script
+Exec=vitals
+Icon=/usr/share/icons/Adwaita/scalable/places/network-server.svg
