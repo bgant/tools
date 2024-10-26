@@ -1,3 +1,5 @@
+zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -51,6 +53,10 @@ setopt HIST_FIND_NO_DUPS
 # autoload -U colors
 #colors
 
+# mkdir ~/source/MichaelAquilina; cd ~/source/MichaelAquilina; git clone --depth=1 https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
+# This activates a .venv Python virtual environment if it exists / rmvenv && mkvenv
+source ~/source/MichaelAquilina/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
+export AUTOSWITCH_DEFAULTENV="~/.venv"
 
 # brew install powerlevel10k
 source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -63,8 +69,8 @@ source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 # This project gathers new completion scripts that are not available in Zsh yet...
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  autoload -Uz compinit
-  compinit
+  #autoload -Uz compinit
+  #compinit
 fi
 #You may also need to force rebuild `zcompdump`:
 #rm -f ~/.zcompdump; compinit
@@ -89,15 +95,9 @@ bindkey '^[[B' history-substring-search-down
 # This changes the colors of commands you type (green = found, red = not found, etc)
 source $HOMEBREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
-# mkdir ~/source/MichaelAquilina; cd ~/source/MichaelAquilina; git clone --depth=1 https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
-# This activates a .venv Python virtual environment if it exists / rmvenv && mkvenv
-source ~/source/MichaelAquilina/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
-export AUTOSWITCH_DEFAULTENV="~/.venv"
-
 # mkdir ~/source/agkozak; cd ~/source/agkozak; git clone --depth=1 https://github.com/agkozak/zsh-z
 # This keeps track of the directories you use / Use Tab to jump to recent or most used directories
 source ~/source/agkozak/zsh-z/zsh-z.plugin.zsh
-autoload -U compinit; compinit
 zstyle ':completion:*' menu select
 
 # brew install antigen
@@ -106,3 +106,5 @@ zstyle ':completion:*' menu select
 #antigen apply
 
 alias vi="/usr/bin/vim"
+
+#zprof  # Uncomment to see chart of .zshrc load stats
