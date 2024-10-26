@@ -1,0 +1,13 @@
+[Unit]
+Description=systemd scheduler for zfs-check.sh
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/zfs-check.sh
+
+[Install]
+WantedBy=default.target
+
+# Test with:
+# systemctl --user enable zfs-check.service
+# systemctl --user start zfs-check.service
