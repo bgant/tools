@@ -20,10 +20,9 @@ flatpak run fr.handbrake.HandBrakeCLI \
 --aencoder aac \
 --mixdown 5point1,stereo \
 --aname "Surround 5.1","Stereo","Commentary" \
---subtitle-lang-list eng \
---all-subtitles \
---subtitle-default="none" \
---subtitle-burned="none"
+--native-language eng \
+--subtitle "scan" \
+--subtitle-forced
 
 done
 IFS=$SAVEIFS
