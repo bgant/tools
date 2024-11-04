@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")  # Spaces in filenames
 for input in *.mkv; do
-if [ -f "$input" ]; then
 
 echo "############################################################"
 echo "$input"
@@ -24,7 +25,7 @@ flatpak run fr.handbrake.HandBrakeCLI \
 --subtitle-default="none" \
 --subtitle-burned="none"
 
-fi
 done
+IFS=$SAVEIFS
 
 # --start-at seconds:600 --stop-at seconds:120
