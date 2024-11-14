@@ -7,7 +7,9 @@
 # Converted files placed in output/ with original <source>.mkv name
 #
 
+#==========================================
 # Is HandBrake CLI installed?
+#==========================================
 if [[ -f /usr/bin/HandBrakeCLI ]]; then
     COMMAND='/usr/bin/HandBrakeCLI'
 elif [[ `flatpak list | grep -c HandBrakeCLI` -eq 1 ]]; then	
@@ -17,14 +19,14 @@ else
     exit 1
 fi
 
-
+#==========================================
+# Create Array of Handbrake Commands to Run
+#==========================================
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")  # Spaces in filenames
 COMMAND_LIST=()
-for input in *.mkv; do
 
-#echo "############################################################"
-#echo "$input"
+for input in *.mkv; do
 extension="${input##*.}"
 filename="${input%.*}"
 output="output/${input}"
@@ -45,11 +47,14 @@ COMMAND_LIST+=("$COMMAND \
 # --start-at seconds:600 --stop-at seconds:120
 done
 
+#==========================================
+# Run Handbrake Commands in Parallel
+#==========================================
 #echo ${COMMAND_LIST[@]}  # List all elements in array
 #echo ${COMMAND_LIST[20]} # List element 20 in array
-
 # apt install parallel
-nice parallel --keep-order --progress --eta --jobs 3 ::: "${COMMAND_LIST[@]}"
+# --jobs # is the number of commands to run in parallel
+nice parallel --keep-order --progress --eta --jobs 8 ::: "${COMMAND_LIST[@]}"
 IFS=$SAVEIFS
 
-# View output of any running process with: tail -f /proc/<pid>/fd/1
+# View output of any running Handbrake process with: tail -f /proc/<pid>/fd/1
