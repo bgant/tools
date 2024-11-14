@@ -1,4 +1,22 @@
 #!/usr/bin/bash
+#
+# Place .mkv files in the same directory as this script.
+#     mkdir output
+#     chmod go+w output
+#     ./handbrake.sh
+# Converted files placed in output/ with original <source>.mkv name
+#
+
+# Is HandBrake CLI installed?
+if [[ -f /usr/bin/HandBrakeCLI ]]; then
+    COMMAND='/usr/bin/HandBrakeCLI'
+elif [[ `flatpak list | grep -c HandBrakeCLI` -eq 1 ]]; then	
+    COMMAND='flatpak run fr.handbrake.HandBrakeCLI'
+else
+    echo "No HandBrake CLI installed"
+    exit 1
+fi
+
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")  # Spaces in filenames
@@ -10,7 +28,7 @@ extension="${input##*.}"
 filename="${input%.*}"
 output="output/${input}"
 #taskset -c 1,3,5,7,9,11 \
-flatpak run fr.handbrake.HandBrakeCLI \
+$COMMAND \
 --input $input \
 --output $output \
 --preset "Roku 2160p60 4K HEVC Surround" \
