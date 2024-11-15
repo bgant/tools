@@ -8,6 +8,12 @@
 #
 
 #==========================================
+# Parallel or Sequential Conversions?
+#==========================================
+#STATE='parallel'
+STATE='sequential'
+
+#==========================================
 # Is HandBrake CLI installed?
 #==========================================
 if [[ -f /usr/bin/HandBrakeCLI ]]; then
@@ -48,13 +54,26 @@ COMMAND_LIST+=("$COMMAND \
 done
 
 #==========================================
-# Run Handbrake Commands in Parallel
+# Run Handbrake Commands
 #==========================================
 #echo ${COMMAND_LIST[@]}  # List all elements in array
 #echo ${COMMAND_LIST[20]} # List element 20 in array
-# apt install parallel
-# --jobs # is the number of commands to run in parallel
-nice parallel --keep-order --progress --eta --jobs 8 ::: "${COMMAND_LIST[@]}"
-IFS=$SAVEIFS
+if [[ $STATE == 'parallel' ]]; then
+    # apt install parallel
+    # --jobs # is the number of commands to run in parallel
+    echo "Running Conversions in Parallel..."
+    nice parallel --keep-order --progress --eta --jobs 8 ::: "${COMMAND_LIST[@]}"
+elif [[ $STATE == 'sequential' ]]; then
+    echo "Running Conversions Sequentially..."
+    for COMMAND in ${COMMAND_LIST[@]}
+    do
+        echo "Command: $COMMAND"
+	eval $COMMAND
+    done
+else
+    echo "Something has broken"
+    exit 1
+fi
 
+IFS=$SAVEIFS
 # View output of any running Handbrake process with: tail -f /proc/<pid>/fd/1
