@@ -18,6 +18,7 @@ docker rename registry registry-old
 cd /var/opt/docker
 rsync --archive --progress registry/ backup/registry-2023-11-05/
 
+mkdir /var/opt/docker/munin
 docker volume create --driver local \
     --opt type=none \
     --opt device=/var/opt/docker/registry \

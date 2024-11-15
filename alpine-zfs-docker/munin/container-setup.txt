@@ -29,6 +29,7 @@ docker rename munin munin-old
 cd /var/opt/docker
 rsync --archive --progress munin/ backup/munin-2023-11-05/
 
+mkdir /var/opt/docker/munin
 docker volume create --driver local \
     --opt type=none \
     --opt device=/var/opt/docker/munin \
