@@ -83,3 +83,32 @@ docker run -d \
 #    https://hub.docker.com/_/postgres
 #    https://github.com/docker-library/docs/blob/master/postgres/README.md
 
+
+####################################                                                                                 
+# Joplin and Postgres 17 on Proxmox                                                                                       
+####################################
+
+mkdir /var/opt/docker/joplin-postgres-17
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/var/opt/docker/joplin-postgres-17 \
+    --opt o=bind \
+    joplin-postgres-17
+
+docker run -d \
+    --name joplin-postgres \
+    -p 172.17.0.1:5432:5432 \
+    --restart unless-stopped \
+    --env TZ=UTC \
+    --env-file /var/opt/configmaps/env-file-joplin-server \
+    --volume joplin-postgres-17:/var/lib/postgresql/data \
+    postgres:17.1-alpine3.20
+
+docker run -d \
+    --name joplin-server \
+    -p 0.0.0.0:22300:22300 \
+    --restart unless-stopped \
+    --env TZ=UTC \
+    --env-file /var/opt/configmaps/env-file-joplin-server \
+    joplin/server:3.0.1-beta
+

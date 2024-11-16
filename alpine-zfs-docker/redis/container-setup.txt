@@ -34,6 +34,7 @@ docker run -d \
     --restart unless-stopped \
     -p 0.0.0.0:6379:6379 \
     --volume redis:/data \
+    --env TZ=US/Central \
     --volume /var/opt/configmaps/redis.conf:/etc/redis.conf:ro \
     --volume /var/opt/configmaps/redis_aclfile.conf:/etc/redis_aclfile.conf:ro \
     redislabs/redistimeseries:1.12.2 \

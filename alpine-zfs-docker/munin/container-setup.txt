@@ -51,6 +51,7 @@ docker run -d \
     --restart unless-stopped \
     --stop-timeout 60 \
     -p 0.0.0.0:8083:80 \
+    --env TZ=US/Central \
     --env-file /var/opt/configmaps/env-file-munin \
     --volume munin:/var/lib/munin \
     dockurr/munin:2.0.76
