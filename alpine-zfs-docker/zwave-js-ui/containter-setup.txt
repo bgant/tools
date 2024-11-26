@@ -33,10 +33,10 @@ Container can use any name or symlink of a /dev device on the host (you will get
 docker run -d \
    --name zwave-js-ui \
    --restart=unless-stopped \
-   --device=/dev/usb-zwave:/dev/usb-zwave \
+   --device=/dev/zwave:/dev/zwave \
    -p 0.0.0.0:8091:8091 \
    -v zwave-js-ui:/usr/src/app/store/ \
    -e TZ=America/Chicago \
-   zwavejs/zwave-js-ui:9.13.3
+   zwavejs/zwave-js-ui:9.27.7
 
 docker logs -f zigbee2mqtt
