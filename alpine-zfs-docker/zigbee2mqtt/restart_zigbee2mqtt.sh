@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# apk add mosquitto_clients
+# apk add mosquitto-clients
 #
 # crontab -l
 # 00     16       *       *       *       /root/source/bgant/tools/alpine-zfs-docker/zigbee2mqtt/restart_zigbee2mqtt.sh

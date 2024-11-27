@@ -22,6 +22,7 @@ try:
     if datetime.now() > datetime.now().replace(hour = 21, minute = 0, second = 0): 
         "waiting for a few minutes to avoid looking like a timer..."
         wait_time = randint(120,840)  # Wait 2 to 14 minutes
+        print(f"Waiting random {wait_time} seconds to avoid looking like a timer...")
         logging.info(f'Waiting {wait_time} seconds before turning light off...')
         sleep(wait_time)
         print("Turning front outside lights OFF")

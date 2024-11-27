@@ -16,4 +16,4 @@
 # docker-asus:~# udevadm control --reload && udevadm trigger  --OR--  /etc/init.d/udev restart
 # docker-asus:~# ls -l /dev/
 
-SUBSYSTEMS=="usb", ATTRS{idVendor}=="1cf1", ATTRS{idProduct}=="0030", MODE="0666", SYMLINK+="usb-zigbee"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1cf1", ATTRS{idProduct}=="0030", MODE="0666", SYMLINK+="zigbee"

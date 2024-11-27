@@ -12,7 +12,7 @@ docker run -it --rm \
    koenkk/zigbee2mqtt:1.30.3
 
 
-cp 50-zigbee2mqtt.rules /etc/udev/rules.d/
+cp zigbee2mqtt.rules /etc/udev/rules.d/
 reboot
 
 cp /root/source/bgant/tools/alpine-zfs-docker/zigbee2mqtt/configuration.yaml /var/opt/docker/zigbee2mqtt/
@@ -53,7 +53,7 @@ docker volume ls
 docker run -d \
    --name zigbee2mqtt \
    --restart=unless-stopped \
-   --device=/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2599139-if00:/dev/ttyACM0 \
+   --device=/dev/zigbee:/dev/ttyACM0 \
    -p 0.0.0.0:8081:8080 \
    -v zigbee2mqtt:/app/data \
    -v /run/udev:/run/udev:ro \

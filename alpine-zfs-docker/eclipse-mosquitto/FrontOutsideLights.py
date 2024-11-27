@@ -18,7 +18,7 @@ import paho.mqtt.publish as publish
 
 def FrontOutsideLights(state='OFF'):
     topic = 'zigbee2mqtt/FrontOutsideLights/set'
-    hostname = 'docker-asus'
+    hostname = '192.168.7.140'
     payload = '{ "state": \"' + state + '\" }'
     if state.upper() == 'ON' or state.upper() == 'OFF':
         payload = '{ "state": \"' + state.upper() + '\" }'
