@@ -102,7 +102,14 @@ docker run -d \
     --env TZ=UTC \
     --env-file /var/opt/configmaps/env-file-joplin-server \
     --volume joplin-postgres-17:/var/lib/postgresql/data \
+    --health-cmd='pg_isready' \
+    --health-interval=20s \
+    --health-timeout=5s \
+    --health-retries=5 \
     postgres:17.1-alpine3.20
+
+cd ~/source/bgant/docker/joplin-server/
+docker build -t joplin-server-curl .
 
 docker run -d \
     --name joplin-server \
@@ -110,5 +117,9 @@ docker run -d \
     --restart unless-stopped \
     --env TZ=UTC \
     --env-file /var/opt/configmaps/env-file-joplin-server \
-    joplin/server:3.0.1-beta
+    --health-cmd='curl --fail http://192.168.7.140:22300/api/ping || exit 1' \
+    --health-interval=30s \
+    --health-timeout=5s \
+    --health-retries=3 \
+    joplin-server-curl:latest
 
