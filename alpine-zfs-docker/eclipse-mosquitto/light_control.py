@@ -13,7 +13,7 @@ from datetime import datetime
 from time import sleep
 from random import randint
 import logging
-logging.basicConfig(level=logging.INFO, filename='/var/log/light_control.log', format='%(asctime)s:%(levelname)s:%(message)s')
+logging.basicConfig(level=logging.INFO, filename='/tmp/light_control.log', format='%(asctime)s:%(levelname)s:%(message)s')
 
 import solar_api
 from FrontOutsideLights import FrontOutsideLights
