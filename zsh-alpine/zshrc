@@ -85,6 +85,8 @@ zstyle ':completion:*' menu select
 #source ~/source/MichaelAquilina/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
 #export AUTOSWITCH_DEFAULTENV="~/.venv"
 
-# apk list --installed
-# apk add git-zsh-completion curl-zsh-completion docker-zsh-completion rsync-zsh-completion py3-pip-zsh-completion
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
