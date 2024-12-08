@@ -53,6 +53,7 @@ setopt HIST_FIND_NO_DUPS
 # autoload -U colors
 #colors
 
+# brew install virtualenv
 # mkdir ~/source/MichaelAquilina; cd ~/source/MichaelAquilina; git clone --depth=1 https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv
 # This activates a .venv Python virtual environment if it exists / rmvenv && mkvenv
 source ~/source/MichaelAquilina/zsh-autoswitch-virtualenv/autoswitch_virtualenv.plugin.zsh
@@ -62,6 +63,7 @@ export AUTOSWITCH_DEFAULTENV="~/.venv"
 source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
 # brew search zsh
 # brew info zsh-completions
